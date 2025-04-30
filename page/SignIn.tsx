@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import CustomInput from "../components/molecules/CustomInput";
-import PrimaryButton from "../components/atoms/PrimaryButton";
+import React, {useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import CustomInput from '../components/molecules/CustomInput';
+import PrimaryButton from '../components/atoms/PrimaryButton';
 
-const SignIn = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignIn = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    console.log({ email, password });
-    navigation.replace("Home");
+    console.log({email, password});
+    navigation.replace('Home');
   };
 
   return (
@@ -31,7 +31,7 @@ const SignIn = ({ navigation }) => {
       <PrimaryButton title="Login" onPress={handleLogin} />
       <PrimaryButton
         title="Belum punya akun? Daftar"
-        onPress={() => navigation.navigate("SignUp")}
+        onPress={() => navigation.navigate('SignUp')}
       />
     </View>
   );
@@ -42,14 +42,14 @@ export default SignIn;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 24,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 24,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
