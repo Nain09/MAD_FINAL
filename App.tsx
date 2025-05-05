@@ -2,12 +2,12 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import SignIn from './page/SignIn';
-import SignUp from './page/SignUp';
-import Home from './page/Home';
-import CarDetail from './page/CarDetail';
-import Purchase from './page/Purchase';
-import Profile from './page/Profile';
+import SignIn from './src/page/SignIn';
+import SignUp from './src/page/SignUp';
+import Home from './src/page/Home';
+import CarDetail from './src/page/CarDetail';
+import Purchase from './src/page/Purchase';
+import Profile from './src/page/Profile';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
