@@ -1,6 +1,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import './src/config/firebase';
+import FlashMessage from 'react-native-flash-message';
 
 import SignIn from './src/page/SignIn';
 import SignUp from './src/page/SignUp';

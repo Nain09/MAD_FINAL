@@ -4,6 +4,10 @@ import CustomInput from '../../src/components/molecules/CustomInput';
 import PrimaryButton from '../../src/components/atoms/PrimaryButton';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {Image, TouchableOpacity} from 'react-native';
+import {auth} from '../../src/config/firebase';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {showMessage} from 'react-native-flash-message';
+import app from '../../src/config/firebase';
 
 const SignUp = ({navigation}) => {
   const [photo, setPhoto] = useState(null);
@@ -20,8 +24,52 @@ const SignUp = ({navigation}) => {
   };
 
   const handleRegister = () => {
-    console.log({fullName, email, password});
-    navigation.replace('Home');
+    console.log('Email:', email);
+    console.log('Password:', password);
+
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showMessage({
+        message: 'Format email tidak valid',
+        type: 'danger',
+      });
+      return;
+    }
+
+    // Validasi password
+    if (password.length < 6) {
+      showMessage({
+        message: 'Password harus minimal 6 karakter',
+        type: 'danger',
+      });
+      return;
+    }
+
+    // Proses SignUp
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        const user = userCredential.user;
+        console.log('User created successfully:', user);
+
+        // Navigasi ke halaman Home hanya jika pendaftaran berhasil
+        navigation.replace('Home');
+      })
+      .catch(error => {
+        console.error('Error creating user:', error.code, error.message);
+
+        if (error.code === 'auth/email-already-in-use') {
+          showMessage({
+            message: 'Email sudah terdaftar. Silakan gunakan email lain.',
+            type: 'danger',
+          });
+        } else {
+          showMessage({
+            message: error.message,
+            type: 'danger',
+          });
+        }
+      });
   };
 
   return (
