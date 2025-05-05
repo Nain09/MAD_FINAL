@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, SafeAreaView} from 'react-native';
-import CarCard from '../src/components/molecules/CarCard';
-import PrimaryButton from '../src/components/atoms/PrimaryButton';
+import CarCard from '../../src/components/molecules/CarCard';
+import PrimaryButton from '../../src/components/atoms/PrimaryButton';
 const dummyCars = [
   {
     id: '1',

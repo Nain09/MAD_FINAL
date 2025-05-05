@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import CustomInput from '../src/components/molecules/CustomInput';
-import PrimaryButton from '../src/components/atoms/PrimaryButton';
+import CustomInput from '../../src/components/molecules/CustomInput';
+import PrimaryButton from '../../src/components/atoms/PrimaryButton';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {Image, TouchableOpacity} from 'react-native';
 
