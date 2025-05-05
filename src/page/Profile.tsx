@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
-import PrimaryButton from '../components/atoms/PrimaryButton';
+import PrimaryButton from '../src/components/atoms/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
 
 const Profile = () => {

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import CustomInput from '../components/molecules/CustomInput';
-import PrimaryButton from '../components/atoms/PrimaryButton';
+import CustomInput from '../src/components/molecules/CustomInput';
+import PrimaryButton from '../src/components/atoms/PrimaryButton';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');

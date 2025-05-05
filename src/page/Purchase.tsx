@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
-import PrimaryButton from '../components/atoms/PrimaryButton';
+import PrimaryButton from '../src/components/atoms/PrimaryButton';
 
 const Purchase = ({route, navigation}) => {
   const {car} = route.params;
