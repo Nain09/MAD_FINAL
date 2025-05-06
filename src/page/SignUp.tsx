@@ -74,57 +74,76 @@ const SignUp = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={handleChoosePhoto}
-        style={{alignSelf: 'center', marginBottom: 20}}>
-        {photo ? (
-          <Image
-            source={{uri: photo.uri}}
-            style={{width: 100, height: 100, borderRadius: 50}}
-          />
-        ) : (
-          <View
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 50,
-              backgroundColor: '#ddd',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text>Pilih Foto</Text>
-          </View>
-        )}
-      </TouchableOpacity>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Sign Up</Text>
+      </View>
+
       <Text style={styles.title}>Buat Akun Baru</Text>
-      <CustomInput
-        label="Nama Lengkap"
-        value={fullName}
-        onChangeText={setFullName}
-        placeholder="Masukkan nama anda"
-      />
-      <CustomInput
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Masukkan email anda"
-      />
-      <CustomInput
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Masukkan password"
-        secureTextEntry
-      />
-      <PrimaryButton title="Daftar" onPress={handleRegister} />
-      <PrimaryButton
-        title="Sudah punya akun? Masuk"
-        onPress={() => navigation.navigate('SignIn')}
-      />
+
+      {/* Container biru muda */}
+      <View style={styles.inputContainer}>
+        {/* Bagian Foto */}
+        <TouchableOpacity
+          onPress={handleChoosePhoto}
+          style={{alignSelf: 'center', marginBottom: 20}}>
+          {photo ? (
+            <Image
+              source={{uri: photo.uri}}
+              style={{width: 100, height: 100, borderRadius: 50}}
+            />
+          ) : (
+            <View
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                backgroundColor: '#ddd',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text>Pilih Foto</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        {/* Input Nama Lengkap */}
+        <CustomInput
+          label="Nama Lengkap"
+          value={fullName}
+          onChangeText={setFullName}
+          placeholder="Masukkan nama anda"
+        />
+
+        {/* Input Email */}
+        <CustomInput
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Masukkan email anda"
+        />
+
+        {/* Input Password */}
+        <CustomInput
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Masukkan password"
+          secureTextEntry
+        />
+
+        {/* Tombol Daftar */}
+        <PrimaryButton title="Daftar" onPress={handleRegister} />
+
+        {/* Tombol Masuk */}
+        <PrimaryButton
+          title="Sudah punya akun? Masuk"
+          onPress={() => navigation.navigate('SignIn')}
+        />
+      </View>
     </View>
   );
 };
-
 export default SignUp;
 
 const styles = StyleSheet.create({
@@ -134,10 +153,27 @@ const styles = StyleSheet.create({
     padding: 24,
     justifyContent: 'center',
   },
+  header: {
+    backgroundColor: '#ADD8E6',
+    borderRadius: 8,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  headerText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
+  },
+  inputContainer: {
+    backgroundColor: '#ADD8E6', // Warna biru muda
+    padding: 16,
+    borderRadius: 8,
+    marginTop: 16,
   },
 });
