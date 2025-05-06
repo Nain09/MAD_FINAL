@@ -1,13 +1,21 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import CustomInput from '../../src/components/molecules/CustomInput';
 import PrimaryButton from '../../src/components/atoms/PrimaryButton';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {Image, TouchableOpacity} from 'react-native';
-import {auth} from '../../src/config/firebase';
+import {auth, db} from '../../src/config/firebase';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {showMessage} from 'react-native-flash-message';
-import app from '../../src/config/firebase';
+import {setDoc, doc} from 'firebase/firestore';
+import RNFS from 'react-native-fs';
+import ImageResizer from 'react-native-image-resizer';
+import {Platform} from 'react-native';
 
 const SignUp = ({navigation}) => {
   const [photo, setPhoto] = useState(null);
@@ -16,164 +24,144 @@ const SignUp = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const handleChoosePhoto = () => {
-    launchImageLibrary({mediaType: 'photo'}, response => {
+    launchImageLibrary({mediaType: 'photo'}, async response => {
       if (response.assets && response.assets.length > 0) {
-        setPhoto(response.assets[0]);
+        const photoUri = response.assets[0].uri;
+
+        try {
+          // Kompres foto
+          const resizedImage = await ImageResizer.createResizedImage(
+            photoUri,
+            300, // Lebar maksimum
+            300, // Tinggi maksimum
+            'JPEG', // Format gambar
+            80, // Kualitas (0-100)
+          );
+
+          // Konversi foto ke Base64
+          const base64Photo = await RNFS.readFile(
+            Platform.OS === 'android'
+              ? resizedImage.uri
+              : resizedImage.uri.replace('file://', ''),
+            'base64',
+          );
+          setPhoto(base64Photo); // Simpan Base64 ke state
+        } catch (error) {
+          console.error('Error resizing image:', error);
+          Alert.alert('Error', 'Gagal memproses foto.');
+        }
+      } else {
+        Alert.alert('Pilih Foto', 'Tidak ada foto yang dipilih.');
       }
     });
   };
 
-  const handleRegister = () => {
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-    // Validasi email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      showMessage({
-        message: 'Format email tidak valid',
-        type: 'danger',
-      });
+  const handleRegister = async () => {
+    if (!fullName || !email || !password) {
+      Alert.alert('Error', 'Semua field harus diisi.');
       return;
     }
 
-    // Validasi password
-    if (password.length < 6) {
-      showMessage({
-        message: 'Password harus minimal 6 karakter',
-        type: 'danger',
-      });
+    if (photo && photo.length > 1048487) {
+      Alert.alert(
+        'Error',
+        'Ukuran foto terlalu besar. Silakan pilih foto lain.',
+      );
       return;
     }
 
-    // Proses SignUp
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        const user = userCredential.user;
-        console.log('User created successfully:', user);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
 
-        // Navigasi ke halaman Home hanya jika pendaftaran berhasil
-        navigation.replace('Home');
-      })
-      .catch(error => {
-        console.error('Error creating user:', error.code, error.message);
-
-        if (error.code === 'auth/email-already-in-use') {
-          showMessage({
-            message: 'Email sudah terdaftar. Silakan gunakan email lain.',
-            type: 'danger',
-          });
-        } else {
-          showMessage({
-            message: error.message,
-            type: 'danger',
-          });
-        }
+      // Simpan data pengguna ke Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        fullName: fullName,
+        email: email,
+        photoBase64: photo || null, // Simpan foto dalam format Base64
       });
+
+      Alert.alert('Berhasil', 'Akun berhasil dibuat.');
+      navigation.replace('Home');
+    } catch (error) {
+      console.error('Error creating user:', error.code, error.message);
+      Alert.alert('Error', error.message);
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Sign Up</Text>
-      </View>
-
-      <Text style={styles.title}>Buat Akun Baru</Text>
-
-      {/* Container biru muda */}
-      <View style={styles.inputContainer}>
-        {/* Bagian Foto */}
-        <TouchableOpacity
-          onPress={handleChoosePhoto}
-          style={{alignSelf: 'center', marginBottom: 20}}>
-          {photo ? (
-            <Image
-              source={{uri: photo.uri}}
-              style={{width: 100, height: 100, borderRadius: 50}}
-            />
-          ) : (
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-                backgroundColor: '#ddd',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text>Pilih Foto</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-
-        {/* Input Nama Lengkap */}
-        <CustomInput
-          label="Nama Lengkap"
-          value={fullName}
-          onChangeText={setFullName}
-          placeholder="Masukkan nama anda"
-        />
-
-        {/* Input Email */}
-        <CustomInput
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Masukkan email anda"
-        />
-
-        {/* Input Password */}
-        <CustomInput
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Masukkan password"
-          secureTextEntry
-        />
-
-        {/* Tombol Daftar */}
-        <PrimaryButton title="Daftar" onPress={handleRegister} />
-
-        {/* Tombol Masuk */}
-        <PrimaryButton
-          title="Sudah punya akun? Masuk"
-          onPress={() => navigation.navigate('SignIn')}
-        />
-      </View>
+      <Text style={styles.title}>Sign Up</Text>
+      <TouchableOpacity
+        onPress={handleChoosePhoto}
+        style={styles.photoContainer}>
+        {photo ? (
+          <Image
+            source={{uri: `data:image/png;base64,${photo}`}}
+            style={styles.photo}
+          />
+        ) : (
+          <View style={styles.photoPlaceholder}>
+            <Text>Pilih Foto</Text>
+          </View>
+        )}
+      </TouchableOpacity>
+      <CustomInput
+        label="Nama Lengkap"
+        value={fullName}
+        onChangeText={setFullName}
+        placeholder="Masukkan nama lengkap"
+      />
+      <CustomInput
+        label="Email"
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Masukkan email"
+      />
+      <CustomInput
+        label="Password"
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Masukkan password"
+        secureTextEntry
+      />
+      <PrimaryButton title="Daftar" onPress={handleRegister} />
     </View>
   );
 };
+
 export default SignUp;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     padding: 24,
-    justifyContent: 'center',
-  },
-  header: {
-    backgroundColor: '#ADD8E6',
-    borderRadius: 8,
-    marginBottom: 16,
-    alignItems: 'center',
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
+    backgroundColor: 'white',
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 24,
-    textAlign: 'center',
+    marginBottom: 16,
   },
-  inputContainer: {
-    backgroundColor: '#ADD8E6', // Warna biru muda
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 16,
+  photoContainer: {
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+  photo: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  photoPlaceholder: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#ddd',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

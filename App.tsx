@@ -1,8 +1,6 @@
-import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import './src/config/firebase';
-import FlashMessage from 'react-native-flash-message';
 
 import SignIn from './src/page/SignIn';
 import SignUp from './src/page/SignUp';
@@ -10,6 +8,8 @@ import Home from './src/page/Home';
 import CarDetail from './src/page/CarDetail';
 import Purchase from './src/page/Purchase';
 import Profile from './src/page/Profile';
+import EditProfile from './src/page/EditProfile';
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -45,6 +45,11 @@ const App = () => {
           name="Profile"
           component={Profile}
           options={{title: 'Profil Saya'}}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
+          options={{title: 'Edit Profil'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
