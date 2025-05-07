@@ -32,5 +32,6 @@ console.log('Firebase Auth Initialized:', auth); // Log Firebase Auth instance
 // Initialize Firestore
 const db = getFirestore(app);
 console.log('Firestore Initialized:', db); // Log Firestore instance
+console.log('Using AsyncStorage for Firebase Auth persistence:', AsyncStorage);
 
 export {app, auth, db};

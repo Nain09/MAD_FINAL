@@ -31,7 +31,6 @@ const Profile = ({navigation}) => {
             'Error',
             'Anda belum login. Silakan login terlebih dahulu.',
           );
-          navigation.replace('SignIn');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -82,7 +81,7 @@ const Profile = ({navigation}) => {
           </Text>
           <Button
             title="Edit Profil"
-            onPress={() => navigation.navigate('EditProfile', {userData})}
+            onPress={() => navigation.navigate('EditProfile', {userData})} // Navigasi ke EditProfile
           />
           <Button title="Logout" onPress={handleLogout} color="#d9534f" />
         </>
