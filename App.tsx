@@ -9,6 +9,7 @@ import CarDetail from './src/page/CarDetail';
 import Purchase from './src/page/Purchase';
 import Profile from './src/page/Profile';
 import EditProfile from './src/page/EditProfile';
+import SellCar from './src/page/SellCar';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,11 @@ const App = () => {
           name="EditProfile"
           component={EditProfile}
           options={{title: 'Edit Profil'}}
+        />
+        <Stack.Screen
+          name="SellCar"
+          component={SellCar}
+          options={{title: 'Jual Mobil'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
