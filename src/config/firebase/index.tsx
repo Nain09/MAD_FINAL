@@ -1,7 +1,7 @@
 import {initializeApp, getApps, getApp} from 'firebase/app';
 import {
-  getAuth,
   initializeAuth,
+  getAuth,
   getReactNativePersistence,
 } from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
@@ -20,7 +20,7 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 console.log('Firebase App Initialized:', app.name); // Log Firebase App name
 
-// Initialize Firebase Auth (only if not already initialized)
+// Initialize Firebase Auth with AsyncStorage
 const auth =
   getApps().length === 0
     ? initializeAuth(app, {
