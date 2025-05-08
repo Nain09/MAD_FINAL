@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, ActivityIndicator} from 'react-native';
 import CustomInput from '../../src/components/molecules/CustomInput';
 import PrimaryButton from '../../src/components/atoms/PrimaryButton';
 import {signInWithEmailAndPassword} from 'firebase/auth';
@@ -8,13 +8,14 @@ import {auth} from '../../src/config/firebase';
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // State untuk loading
 
   const handleSignIn = async () => {
     if (!email || !password) {
       Alert.alert('Error', 'Email dan password harus diisi.');
       return;
     }
-
+    setLoading(true); // Tampilkan loading
     try {
       await signInWithEmailAndPassword(auth, email, password);
       Alert.alert('Berhasil', 'Login berhasil.');
@@ -22,6 +23,8 @@ const SignIn = ({navigation}) => {
     } catch (error) {
       console.error('Error signing in:', error.code, error.message);
       Alert.alert('Error', 'Email atau password salah.');
+    } finally {
+      setLoading(false); // Sembunyikan loading
     }
   };
 
@@ -50,6 +53,13 @@ const SignIn = ({navigation}) => {
           secureTextEntry
         />
         <PrimaryButton title="Masuk" onPress={handleSignIn} />
+        {loading && ( // Tampilkan loading indicator jika loading true
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            style={styles.loading}
+          />
+        )}
         <PrimaryButton
           title="Belum punya akun? Daftar"
           onPress={() => navigation.navigate('SignUp')}
@@ -89,5 +99,8 @@ const styles = StyleSheet.create({
   secondaryButton: {
     marginTop: 16,
     backgroundColor: '#ddd', // Warna abu-abu untuk tombol sekunder
+  },
+  loading: {
+    marginTop: 16, // Jarak antara tombol dan indikator loading
   },
 });

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import CustomInput from '../../src/components/molecules/CustomInput';
 import PrimaryButton from '../../src/components/atoms/PrimaryButton';
@@ -22,6 +23,7 @@ const SignUp = ({navigation}) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // State untuk loading
 
   const handleChoosePhoto = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
@@ -68,6 +70,7 @@ const SignUp = ({navigation}) => {
       return;
     }
 
+    setLoading(true); // Tampilkan loading
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -87,6 +90,8 @@ const SignUp = ({navigation}) => {
     } catch (error) {
       console.error('Error creating user:', error.code, error.message);
       Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false); // Sembunyikan loading
     }
   };
 
@@ -136,6 +141,13 @@ const SignUp = ({navigation}) => {
           secureTextEntry
         />
         <PrimaryButton title="Daftar" onPress={handleRegister} />
+        {loading && ( // Tampilkan loading indicator jika loading true
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            style={styles.loading}
+          />
+        )}
       </View>
     </View>
   );
@@ -183,5 +195,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loading: {
+    marginTop: 16, // Jarak antara tombol dan indikator loading
   },
 });
