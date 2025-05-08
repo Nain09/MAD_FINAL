@@ -2,6 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import './src/config/firebase';
 
+import SplashScreen from './src/page/SplashScreen';
 import SignIn from './src/page/SignIn';
 import SignUp from './src/page/SignUp';
 import Home from './src/page/Home';
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignIn"
+        initialRouteName="Splash"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#e6f7ff', // Warna biru muda untuk header
@@ -28,6 +29,11 @@ const App = () => {
             fontSize: 24, // Ukuran teks header
           },
         }}>
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="SignIn"
           component={SignIn}
