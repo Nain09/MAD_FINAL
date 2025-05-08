@@ -29,23 +29,21 @@ const SignUp = ({navigation}) => {
         const photoUri = response.assets[0].uri;
 
         try {
-          // Kompres foto
           const resizedImage = await ImageResizer.createResizedImage(
             photoUri,
-            300, // Lebar maksimum
-            300, // Tinggi maksimum
-            'JPEG', // Format gambar
-            80, // Kualitas (0-100)
+            300,
+            300,
+            'JPEG',
+            80,
           );
 
-          // Konversi foto ke Base64
           const base64Photo = await RNFS.readFile(
             Platform.OS === 'android'
               ? resizedImage.uri
               : resizedImage.uri.replace('file://', ''),
             'base64',
           );
-          setPhoto(base64Photo); // Simpan Base64 ke state
+          setPhoto(base64Photo);
         } catch (error) {
           console.error('Error resizing image:', error);
           Alert.alert('Error', 'Gagal memproses foto.');
@@ -78,11 +76,10 @@ const SignUp = ({navigation}) => {
       );
       const user = userCredential.user;
 
-      // Simpan data pengguna ke Firestore
       await setDoc(doc(db, 'users', user.uid), {
         fullName: fullName,
         email: email,
-        photoBase64: photo || null, // Simpan foto dalam format Base64
+        photoBase64: photo || null,
       });
 
       Alert.alert('Berhasil', 'Akun berhasil dibuat.');
@@ -95,41 +92,48 @@ const SignUp = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <TouchableOpacity
-        onPress={handleChoosePhoto}
-        style={styles.photoContainer}>
-        {photo ? (
-          <Image
-            source={{uri: `data:image/png;base64,${photo}`}}
-            style={styles.photo}
-          />
-        ) : (
-          <View style={styles.photoPlaceholder}>
-            <Text>Pilih Foto</Text>
-          </View>
-        )}
-      </TouchableOpacity>
-      <CustomInput
-        label="Nama Lengkap"
-        value={fullName}
-        onChangeText={setFullName}
-        placeholder="Masukkan nama lengkap"
-      />
-      <CustomInput
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Masukkan email"
-      />
-      <CustomInput
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Masukkan password"
-        secureTextEntry
-      />
-      <PrimaryButton title="Daftar" onPress={handleRegister} />
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Sign Up</Text>
+      </View>
+
+      {/* Form Container */}
+      <View style={styles.formContainer}>
+        <TouchableOpacity
+          onPress={handleChoosePhoto}
+          style={styles.photoContainer}>
+          {photo ? (
+            <Image
+              source={{uri: `data:image/png;base64,${photo}`}}
+              style={styles.photo}
+            />
+          ) : (
+            <View style={styles.photoPlaceholder}>
+              <Text>Pilih Foto</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+        <CustomInput
+          label="Nama Lengkap"
+          value={fullName}
+          onChangeText={setFullName}
+          placeholder="Masukkan nama lengkap"
+        />
+        <CustomInput
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Masukkan email"
+        />
+        <CustomInput
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Masukkan password"
+          secureTextEntry
+        />
+        <PrimaryButton title="Daftar" onPress={handleRegister} />
+      </View>
     </View>
   );
 };
@@ -142,10 +146,23 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: 'white',
   },
-  title: {
-    fontSize: 24,
+  headerContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
+    padding: 16,
+    backgroundColor: '#f0f8ff', // Warna biru muda
+    borderRadius: 8,
+  },
+  headerText: {
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 16,
+    color: '#333',
+  },
+  formContainer: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#e6f7ff', // Warna biru muda
+    borderRadius: 8,
   },
   photoContainer: {
     alignSelf: 'center',
