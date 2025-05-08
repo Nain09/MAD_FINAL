@@ -54,6 +54,7 @@ const Home = ({navigation}) => {
       <TextInput
         style={styles.searchBar}
         placeholder="Cari Mobil..."
+        placeholderTextColor="#555"
         value={searchText}
         onChangeText={setSearchText}
       />
@@ -84,7 +85,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
   },
   header: {
     fontSize: 22,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: 'gray',
   },
   list: {
     paddingHorizontal: 16,

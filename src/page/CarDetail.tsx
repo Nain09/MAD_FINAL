@@ -32,7 +32,7 @@ export default CarDetail;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
   },
   image: {
     width: '100%',
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#555',
   },
   price: {
     fontSize: 18,
@@ -55,9 +56,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 16,
     marginBottom: 6,
+    color: '#555',
   },
   description: {
     fontSize: 14,
-    color: '#333',
+    color: '#555',
   },
 });

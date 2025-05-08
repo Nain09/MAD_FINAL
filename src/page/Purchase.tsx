@@ -32,6 +32,7 @@ const Purchase = ({route, navigation}) => {
         onChangeText={setFullName}
         style={styles.input}
         placeholder="Masukkan nama lengkap"
+        placeholderTextColor={'#555'}
       />
       <Text style={styles.label}>Alamat Pengiriman</Text>
       <TextInput
@@ -39,6 +40,7 @@ const Purchase = ({route, navigation}) => {
         onChangeText={setAddress}
         style={styles.input}
         placeholder="Masukkan alamat"
+        placeholderTextColor={'#555'}
       />
       <PrimaryButton title="Konfirmasi Pembelian" onPress={handlePurchase} />
     </View>
@@ -57,6 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 24,
+    color: '#555',
   },
   label: {
     fontSize: 14,

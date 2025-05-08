@@ -16,6 +16,7 @@ const CustomInput = ({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
+        placeholderTextColor="#555"
         secureTextEntry={secureTextEntry}
       />
     </View>
@@ -28,10 +29,11 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: 'gray',
     padding: 12,
     borderRadius: 8,
     marginTop: 4,
+    color: '#555',
   },
 });
 

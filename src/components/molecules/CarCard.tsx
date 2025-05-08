@@ -16,13 +16,15 @@ const CarCard = ({car, onPress}) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
-    borderRadius: 12,
+    borderRadius: 45,
     marginBottom: 16,
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    borderWidth: 1,
+    borderColor: 'gray',
   },
   image: {
     width: '100%',
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#555',
   },
   price: {
     fontSize: 14,

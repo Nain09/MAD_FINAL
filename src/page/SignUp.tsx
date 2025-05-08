@@ -118,18 +118,21 @@ const SignUp = ({navigation}) => {
           value={fullName}
           onChangeText={setFullName}
           placeholder="Masukkan nama lengkap"
+          placeholderTextColor="#555"
         />
         <CustomInput
           label="Email"
           value={email}
           onChangeText={setEmail}
           placeholder="Masukkan email"
+          placeholderTextColor="#555"
         />
         <CustomInput
           label="Password"
           value={password}
           onChangeText={setPassword}
           placeholder="Masukkan password"
+          placeholderTextColor="#555"
           secureTextEntry
         />
         <PrimaryButton title="Daftar" onPress={handleRegister} />
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
     padding: 16,
-    backgroundColor: '#f0f8ff', // Warna biru muda
+    backgroundColor: '#e6f7ff', // Warna biru muda
     borderRadius: 8,
   },
   headerText: {

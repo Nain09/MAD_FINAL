@@ -39,12 +39,14 @@ const SignIn = ({navigation}) => {
           value={email}
           onChangeText={setEmail}
           placeholder="Masukkan email"
+          placeholderTextColor="#555"
         />
         <CustomInput
           label="Password"
           value={password}
           onChangeText={setPassword}
           placeholder="Masukkan password"
+          placeholderTextColor="#555"
           secureTextEntry
         />
         <PrimaryButton title="Masuk" onPress={handleSignIn} />
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
     padding: 16,
-    backgroundColor: '#f0f8ff', // Warna biru muda
+    backgroundColor: '#e6f7ff', // Warna biru muda
     borderRadius: 8,
   },
   headerText: {

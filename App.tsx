@@ -16,7 +16,18 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn">
+      <Stack.Navigator
+        initialRouteName="SignIn"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#e6f7ff', // Warna biru muda untuk header
+          },
+          headerTintColor: '#333', // Warna teks header
+          headerTitleStyle: {
+            fontWeight: 'bold', // Gaya teks header
+            fontSize: 24, // Ukuran teks header
+          },
+        }}>
         <Stack.Screen
           name="SignIn"
           component={SignIn}

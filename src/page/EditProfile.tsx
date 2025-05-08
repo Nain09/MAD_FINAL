@@ -24,7 +24,7 @@ const EditProfile = ({route, navigation}) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const user = auth.currentUser; // Ambil pengguna yang sedang login
+        const user = auth.currentUser;
         if (user) {
           const docRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(docRef);
@@ -45,7 +45,7 @@ const EditProfile = ({route, navigation}) => {
             'Error',
             'Anda belum login. Silakan login terlebih dahulu.',
           );
-          navigation.replace('SignIn'); // Arahkan ke halaman login
+          navigation.replace('SignIn');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -139,6 +139,7 @@ const EditProfile = ({route, navigation}) => {
         placeholder="Nama Lengkap"
         value={newFullName}
         onChangeText={setNewFullName}
+        placeholderTextColor="#555"
       />
       <Button title="Simpan Perubahan" onPress={handleSaveChanges} />
       <Button
@@ -179,5 +180,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     fontSize: 16,
     width: '100%',
+    color: '#555',
   },
 });

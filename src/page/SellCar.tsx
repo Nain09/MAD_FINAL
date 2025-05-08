@@ -70,6 +70,7 @@ const SellCar = ({navigation}) => {
           placeholder="Masukan Alamat Anda"
           value={alamat}
           onChangeText={setAlamat}
+          placeholderTextColor={'#555'}
         />
       </View>
 
@@ -80,6 +81,7 @@ const SellCar = ({navigation}) => {
           keyboardType="numeric"
           value={harga}
           onChangeText={setHarga}
+          placeholderTextColor={'#555'}
         />
       </View>
 
@@ -99,6 +101,7 @@ const SellCar = ({navigation}) => {
           placeholder="Deskripsi Mobil"
           value={deskripsi}
           onChangeText={setDeskripsi}
+          placeholderTextColor={'#555'}
         />
       </View>
 
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 24,
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 24,
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#aaa',
+    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 25,
     paddingHorizontal: 15,
@@ -140,6 +143,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingVertical: 10,
+    color: '#555',
   },
   uploadWrapper: {
     flexDirection: 'row',
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: '#aaa',
+    borderColor: 'gray',
     paddingHorizontal: 15,
     paddingVertical: 12,
     marginBottom: 15,
