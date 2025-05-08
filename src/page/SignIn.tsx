@@ -1,51 +1,62 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import CustomInput from '../../src/components/molecules/CustomInput';
 import PrimaryButton from '../../src/components/atoms/PrimaryButton';
-import {auth} from '../../src/config/firebase';
 import {signInWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../../src/config/firebase';
+import {showMessage} from 'react-native-flash-message';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignIn = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Email dan password harus diisi.');
+  const handleSignIn = () => {
+    console.log('Email:', email);
+    console.log('Password:', password);
+
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showMessage({
+        message: 'Format email tidak valid',
+        type: 'danger',
+      });
       return;
     }
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log('User signed in:', userCredential.user);
-      navigation.replace('Home');
-    } catch (error) {
-      console.error('Error signing in:', error.code, error.message);
-      if (error.code === 'auth/user-not-found') {
-        Alert.alert(
-          'Error',
-          'Pengguna tidak ditemukan. Silakan daftar terlebih dahulu.',
-        );
-      } else if (error.code === 'auth/wrong-password') {
-        Alert.alert('Error', 'Password salah. Silakan coba lagi.');
-      } else {
-        Alert.alert('Error', error.message);
-      }
+    // Validasi password
+    if (password.length < 6) {
+      showMessage({
+        message: 'Password harus minimal 6 karakter',
+        type: 'danger',
+      });
+      return;
     }
+
+    // Proses Sign In
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        const user = userCredential.user;
+        console.log('User signed in successfully:', user);
+        navigation.replace('Home'); // Navigasi ke halaman Home
+      })
+      .catch(error => {
+        console.error('Error signing in:', error.code, error.message);
+        showMessage({
+          message: error.message,
+          type: 'danger',
+        });
+      });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
+      <Text style={styles.title}>Masuk ke Akun Anda</Text>
       <CustomInput
         label="Email"
         value={email}
         onChangeText={setEmail}
-        placeholder="Masukkan email"
+        placeholder="Masukkan email anda"
       />
       <CustomInput
         label="Password"
@@ -68,12 +79,14 @@ export default SignIn;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
     backgroundColor: 'white',
+    padding: 24,
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 24,
+    textAlign: 'center',
   },
 });

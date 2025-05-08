@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, Alert, Button} from 'react-native';
+import {View, Text, StyleSheet, Image, Button, Alert} from 'react-native';
 import {auth, db} from '../../src/config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
 import {signOut} from 'firebase/auth';
@@ -13,20 +13,17 @@ const Profile = ({navigation}) => {
       try {
         const user = auth.currentUser;
         if (user) {
-          console.log('Current User UID:', user.uid); // Log UID pengguna
-
           const docRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            console.log('User data:', docSnap.data()); // Log data pengguna
             setUserData(docSnap.data());
           } else {
-            console.log('No such document!'); // Dokumen tidak ditemukan
+            console.log('No such document!');
             Alert.alert('Error', 'Data pengguna tidak ditemukan.');
           }
         } else {
-          console.log('No user is signed in!'); // Tidak ada pengguna yang login
+          console.log('No user is signed in!');
           Alert.alert(
             'Error',
             'Anda belum login. Silakan login terlebih dahulu.',
@@ -36,7 +33,7 @@ const Profile = ({navigation}) => {
         console.error('Error fetching user data:', error);
         Alert.alert('Error', 'Terjadi kesalahan saat mengambil data pengguna.');
       } finally {
-        setLoading(false); // Set loading selesai
+        setLoading(false);
       }
     };
 
@@ -45,7 +42,7 @@ const Profile = ({navigation}) => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Logout pengguna
+      await signOut(auth);
       navigation.replace('SignIn'); // Arahkan ke halaman Sign In
     } catch (error) {
       console.error('Error signing out:', error);

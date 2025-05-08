@@ -32,7 +32,7 @@ export default CarDetail;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'gray',
   },
   image: {
     width: '100%',

@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 24,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: 'gray',
   },
   title: {
     fontSize: 24,
